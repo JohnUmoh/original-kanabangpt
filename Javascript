@@ -1,73 +1,39 @@
-const STORAGE_KEY = 'kanbangpt_board';
-let dragged = null;
+// Check for browser support
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-function createTaskEl(text) {
-  const div = document.createElement('div');
-  div.className = 'task';
-  div.draggable = true;
-  div.innerHTML = `
-    <span class="task-text">${text}</span>
-    <span class="delete-btn">✖</span>
-  `;
-  return div;
-}
+if (!SpeechRecognition) {
+  speakBtn.disabled = true;
+  speakBtn.title = "Speech recognition not supported in this browser.";
+} else {
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US'; // change if you want other languages
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
 
-function saveBoard() {
-  const data = {};
-  document.querySelectorAll('.column').forEach(col => {
-    const status = col.dataset.status;
-    const tasks = [...col.querySelectorAll('.task-text')].map(t => t.textContent);
-    data[status] = tasks;
+  speakBtn.addEventListener('click', () => {
+    recognition.start();
+    listeningIndicator.style.display = 'inline';
+    speakBtn.disabled = true;
   });
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
 
-function loadBoard() {
-  const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-  for (const [status, tasks] of Object.entries(data)) {
-    const col = document.querySelector(`.column[data-status="${status}"] .tasks`);
-    tasks.forEach(t => col.appendChild(createTaskEl(t)));
-  }
-}
-
-document.addEventListener('click', e => {
-  // Add task
-  if (e.target.classList.contains('add-btn')) {
-    const col = e.target.closest('.column');
+  recognition.addEventListener('result', (event) => {
+    const transcript = event.results[0][0].transcript;
     const input = document.getElementById('taskInput');
-    const text = input.value || prompt('Enter task:');
-    if (text && text.trim()) {
-      col.querySelector('.tasks').appendChild(createTaskEl(text.trim()));
-      saveBoard();
-      input.value = '';
-    }
-  }
+    input.value = transcript;
+  });
 
-  // Delete task
-  if (e.target.classList.contains('delete-btn')) {
-    e.target.closest('.task').remove();
-    saveBoard();
-  }
-});
+  recognition.addEventListener('speechend', () => {
+    recognition.stop();
+  });
 
-document.addEventListener('dragstart', e => {
-  if (e.target.classList.contains('task')) {
-    dragged = e.target;
-  }
-});
+  recognition.addEventListener('end', () => {
+    listeningIndicator.style.display = 'none';
+    speakBtn.disabled = false;
+  });
 
-document.addEventListener('dragover', e => {
-  if (e.target.classList.contains('tasks')) {
-    e.preventDefault();
-  }
-});
-
-document.addEventListener('drop', e => {
-  if (e.target.classList.contains('tasks')) {
-    e.preventDefault();
-    e.target.appendChild(dragged);
-    saveBoard();
-  }
-});
-
-loadBoard();
+  recognition.addEventListener('error', (event) => {
+    listeningIndicator.style.display = 'none';
+    speakBtn.disabled = false;
+    alert('Speech recognition error: ' + event.error);
+  });
+}
