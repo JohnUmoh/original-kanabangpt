@@ -1,1 +1,99 @@
+:root {
+  --blue: #007bff;
+  --yellow: #ffd60a;
+  --white: #ffffff;
+  --light-blue: #e6f0ff;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Segoe UI, Arial, sans-serif;
+}
+body {
+  background: var(--white);
+  padding: 20px;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--blue);
+}
 
+.top-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.top-controls button,
+.top-controls input {
+  padding: 10px;
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  background: var(--light-blue);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.kanban-board {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.column {
+  background: var(--light-blue);
+  border: 2px solid var(--blue);
+  border-radius: 10px;
+  width: 280px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.column h2 {
+  background: var(--blue);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.tasks {
+  flex: 1;
+  padding: 10px;
+}
+
+.task {
+  background: var(--white);
+  border-left: 6px solid var(--yellow);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  cursor: grab;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+}
+
+.add-btn {
+  background: var(--yellow);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.add-btn:hover {
+  opacity: 0.9;
+  }
