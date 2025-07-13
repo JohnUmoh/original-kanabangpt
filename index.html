@@ -1,1 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KanbanGPT AI App Board</title>
+  <style>
+    :root {
+      --blue: #007bff;
+      --yellow: #ffd60a;
+      --white: #ffffff;
+      --light-blue: #e6f0ff;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Segoe UI, Arial, sans-serif;
+    }
+    body {
+      background: var(--white);
+      padding: 20px;
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--blue);
+    }
 
+    .top-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .top-controls button,
+    .top-controls input {
+      padding: 10px;
+      border: 1px solid var(--blue);
+      border-radius: 6px;
+      background: var(--light-blue);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .kanban-board {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      flex-grow: 1; /* fill vertical space */
+    }
+
+    .column {
+      background: var(--light-blue);
+      border: 2px solid var(--blue);
+      border-radius: 10px;
+      width: 280px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .column h2 {
+      background: var(--blue);
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .tasks {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    .task {
+      background: var(--white);
+      border-left: 6px solid var(--yellow);
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      cursor: grab;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      cursor: pointer;
+      color: red;
+      font-weight: bold;
+    }
+
+    .add-btn {
+      background: var(--yellow);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .add-btn:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 15px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--blue);
+      border-top: 1px solid var(--blue);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>KanbanGPT AI App Board</h1>
+
+  <div class="top-controls">
+    <button onclick="alert('Mode toggled!')">🌓 Toggle Mode</button>
+    <input id="taskInput" type="text" placeholder="Enter task..." />
+    <button onclick="alert('AI is suggesting tasks...')">🤖 Ask AI</button>
+    <button onclick="alert('Voice activated!')">🎙️ Speak</button>
+  </div>
+
+  <div class="kanban-board" id="board">
+    <div class="column" data-status="todo">
+      <h2>To Do</h2>
+      <div class="tasks"></div>
+      <button class="add-btn">+ Add Task</button>
+    </div>
+    <div class="column" data-status="inprogress">
+      <h2>In Progress</h2>
+      <div class="tasks"></div>
+      <button class="add-btn">+ Add Task</button>
+    </div>
+    <div class="column" data-status="done">
+      <h2>Done</h2>
+      <div class="tasks"></div>
+      <button class="add-btn">+ Add Task</button>
+    </div>
+  </div>
+
+  <footer>
+    KanbanGPT | Visionary Idea Foundry 💡 | Created by John Umoh
+  </footer>
+
+  <script>
+    const STORAGE_KEY = 'kanbangpt_board';
+    let dragged = null;
+
+    function createTaskEl(text) {
+      const div = document.createElement('div');
+      div.className = 'task';
+      div.draggable = true;
+      div.innerHTML = `
+        <span class="task-text">${text}</span>
+        <span class="delete-btn">✖</span>
+      `;
+      return div;
+    }
+
+    function saveBoard() {
+      const data = {};
+      document.querySelectorAll('.column').forEach(col => {
+        const status = col.dataset.status;
+        const tasks = [...col.querySelectorAll('.task-text')].map(t => t.textContent);
+        data[status] = tasks;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function loadBoard() {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      for (const [status, tasks] of Object.entries(data)) {
+        const col = document.querySelector(`.column[data-status="${status}"] .tasks`);
+        tasks.forEach(t => col.appendChild(createTaskEl(t)));
+      }
+    }
+
+    document.addEventListener('click', e => {
+      // Add task
+      if (e.target.classList.contains('add-btn')) {
+        const col = e.target.closest('.column');
+        const input = document.getElementById('taskInput');
+        const text = input.value || prompt('Enter task:');
+        if (text && text.trim()) {
+          col.querySelector('.tasks').appendChild(createTaskEl(text.trim()));
+          saveBoard();
+          input.value = ''; // clear input
+        }
+      }
+
+      // Delete task
+      if (e.target.classList.contains('delete-btn')) {
+        e.target.closest('.task').remove();
+        saveBoard();
+      }
+    });
+
+    document.addEventListener('dragstart', e => {
+      if (e.target.classList.contains('task')) {
+        dragged = e.target;
+      }
+    });
+
+    document.addEventListener('dragover', e => {
+      if (e.target.classList.contains('tasks')) {
+        e.preventDefault();
+      }
+    });
+
+    document.addEventListener('drop', e => {
+      if (e.target.classList.contains('tasks')) {
+        e.preventDefault();
+        e.target.appendChild(dragged);
+        saveBoard();
+      }
+    });
+
+    loadBoard();
+  </script>
+
+</body>
+        </html>
