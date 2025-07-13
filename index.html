@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,183 +19,145 @@
     body {
       background: var(--white);
       padding: 20px;
-      color: black;
+      color: #000;
       transition: background 0.3s, color 0.3s;
     }
     h1 {
       text-align: center;
       margin-bottom: 20px;
       color: var(--blue);
-    }
+    }/* ───── Top Controls ───── */
+.top-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  align-items: center;
+}
+.top-controls button,
+.top-controls input {
+  padding: 10px;
+  border: 1px solid var(--blue);
+  border-radius: 6px;
+  background: var(--light-blue);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, border-color 0.3s, opacity 0.3s;
+}
+.top-controls button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+#listeningIndicator {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--blue);
+  user-select: none;
+}
 
-    .top-controls {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      align-items: center;
-    }
-    .top-controls button,
-    .top-controls input {
-      padding: 10px;
-      border: 1px solid var(--blue);
-      border-radius: 6px;
-      background: var(--light-blue);
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
-    }
-    .top-controls button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .listening-indicator {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--blue);
-      user-select: none;
-    }
+/* ───── Kanban Columns ───── */
+.kanban-board {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.column {
+  background: var(--light-blue);
+  border: 2px solid var(--blue);
+  border-radius: 10px;
+  width: 280px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: background 0.3s, border-color 0.3s;
+}
+.column h2 {
+  background: var(--blue);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  transition: background 0.3s;
+}
+.tasks {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
 
-    .kanban-board {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+/* ───── Task Card ───── */
+.task {
+  background: var(--white);
+  border-left: 6px solid var(--yellow);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: grab;
+  transition: background 0.2s;
+}
+.task:hover { background: #fff9c4; }
 
-    .column {
-      background: var(--light-blue);
-      border: 2px solid var(--blue);
-      border-radius: 10px;
-      width: 280px;
-      min-height: 300px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: background 0.3s, border-color 0.3s;
-    }
+.task-text {
+  flex: 1 1 auto;
+  word-break: break-word;
+}
+.delete-btn,
+.speak-btn-task {
+  font-weight: 700;
+  user-select: none;
+  cursor: pointer;
+}
+.delete-btn { color: red; }
+.speak-btn-task { color: var(--blue); }
 
-    .column h2 {
-      background: var(--blue);
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      font-size: 18px;
-      transition: background 0.3s;
-    }
+.add-btn {
+  background: var(--yellow);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 0 0 10px 10px;
+  transition: opacity 0.3s;
+}
+.add-btn:hover { opacity: 0.9; }
 
-    .tasks {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-    }
+/* ───── Dark Mode ───── */
+.dark-mode { background: #222; color: #eee; }
+.dark-mode .column { background: #333; border-color: #555; }
+.dark-mode .column h2 { background: #444; }
+.dark-mode .task { background: #2d2d2d; }
+.dark-mode .top-controls button,
+.dark-mode .top-controls input { background: #555; color: #eee; border-color: #888; }
 
-    .task {
-      background: var(--white);
-      border-left: 6px solid var(--yellow);
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 10px;
-      position: relative;
-      cursor: grab;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.2s;
-    }
-    .task:hover {
-      background: #fff9c4;
-    }
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--blue);
+  border-top: 1px solid var(--blue);
+  user-select: none;
+  transition: color 0.3s, border-color 0.3s;
+}
+.dark-mode footer { color: #ccc; border-color: #666; }
 
-    .task-text {
-      flex-grow: 1;
-      padding-right: 10px;
-      word-break: break-word;
-    }
-
-    .delete-btn {
-      cursor: pointer;
-      color: red;
-      font-weight: bold;
-      user-select: none;
-    }
-
-    .speak-btn-task {
-      cursor: pointer;
-      margin-left: 6px;
-      color: #007bff;
-      user-select: none;
-      font-weight: 700;
-    }
-
-    .add-btn {
-      background: var(--yellow);
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: opacity 0.3s;
-      border-radius: 0 0 10px 10px;
-    }
-    .add-btn:hover {
-      opacity: 0.9;
-    }
-
-    /* Dark mode styles */
-    .dark-mode {
-      background: #222;
-      color: #eee;
-    }
-
-    .dark-mode .column {
-      background: #333;
-      border-color: #555;
-    }
-
-    .dark-mode .column h2 {
-      background: #444;
-    }
-
-    .dark-mode .top-controls button,
-    .dark-mode .top-controls input {
-      background: #555;
-      color: #eee;
-      border-color: #888;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      padding: 15px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--blue);
-      border-top: 1px solid var(--blue);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      user-select: none;
-      transition: color 0.3s, border-color 0.3s;
-    }
-
-    .dark-mode footer {
-      color: #ccc;
-      border-color: #666;
-    }
   </style>
 </head>
 <body>
-
-  <h1>KanbanGPT AI App Board</h1>
-
-  <div class="top-controls">
+  <h1>KanbanGPT AI App Board</h1>  <div class="top-controls">
     <button id="toggleModeBtn">🌓 Toggle Mode</button>
     <input id="taskInput" type="text" placeholder="Enter task..." autocomplete="off" />
     <button id="askAiBtn">🤖 Ask AI</button>
     <button id="speakBtn">🎙️ Speak</button>
-    <div class="listening-indicator" id="listeningIndicator" style="display:none;">Listening...</div>
-  </div>
-
-  <div class="kanban-board" id="board">
+    <span id="listeningIndicator" style="display:none;">Listening...</span>
+  </div>  <div class="kanban-board">
     <div class="column" data-status="todo">
       <h2>To Do</h2>
       <div class="tasks"></div>
@@ -212,40 +173,56 @@
       <div class="tasks"></div>
       <button class="add-btn">+ Add Task</button>
     </div>
-  </div>
-
-  <footer>
-    KanbanGPT | Visionary Idea Foundry 💡 | Created by John Umoh
-  </footer>
-
-<script>
+  </div>  <footer>KanbanGPT | Visionary Idea Foundry 💡 | Created by John Umoh</footer><script>
+  /* ========= GLOBALS ========= */
   const STORAGE_KEY = 'kanbangpt_board';
   let dragged = null;
 
-  // Create task element with delete and speak buttons
+  /* ========= UTILITIES ========= */
+  function speakText(text) {
+    if (!('speechSynthesis' in window)) return;
+    const u = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(u);
+  }
+
+  async function callOpenAI(prompt) {
+    // 👉 Replace this with your real server endpoint that calls OpenAI securely
+    /*
+    const res = await fetch('/api/ask-ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    return data.answer;
+    */
+
+    // Mock response for offline testing
+    await new Promise(r => setTimeout(r, 1200));
+    return `AI Suggestion for \"${prompt}\": break it into smaller tasks, prioritize, then tackle one at a time.`;
+  }
+
+  /* ========= TASK HELPERS ========= */
   function createTaskEl(text) {
-    const div = document.createElement('div');
-    div.className = 'task';
-    div.draggable = true;
+    const card = document.createElement('div');
+    card.className = 'task';
+    card.draggable = true;
 
-    const spanText = document.createElement('span');
-    spanText.className = 'task-text';
-    spanText.textContent = text;
-
-    const deleteBtn = document.createElement('span');
-    deleteBtn.className = 'delete-btn';
-    deleteBtn.textContent = '✖';
+    const span = document.createElement('span');
+    span.className = 'task-text';
+    span.textContent = text;
 
     const speakBtn = document.createElement('span');
     speakBtn.className = 'speak-btn-task';
     speakBtn.textContent = '🔊';
-    speakBtn.title = 'Listen to this task';
+    speakBtn.title = 'Read task aloud';
 
-    div.appendChild(spanText);
-    div.appendChild(speakBtn);
-    div.appendChild(deleteBtn);
+    const del = document.createElement('span');
+    del.className = 'delete-btn';
+    del.textContent = '✖';
 
-    return div;
+    card.append(span, speakBtn, del);
+    return card;
   }
 
   function saveBoard() {
@@ -260,72 +237,47 @@
 
   function loadBoard() {
     const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    for (const [status, tasks] of Object.entries(data)) {
-      const col = document.querySelector(`.column[data-status="${status}"] .tasks`);
-      tasks.forEach(t => col.appendChild(createTaskEl(t)));
-    }
+    Object.entries(data).forEach(([status, tasks]) => {
+      const container = document.querySelector(`.column[data-status="${status}"] .tasks`);
+      tasks.forEach(t => container.appendChild(createTaskEl(t)));
+    });
   }
 
-  // Mock function to simulate AI API call - replace with your real API
-  async function mockOpenAiCall(prompt) {
-    // Simulate delay
-    await new Promise(res => setTimeout(res, 1500));
-    // Simple mock response breaking down task
-    return `Try breaking down "${prompt}" into smaller actionable subtasks.`;
-  }
-
-  // Speak text using Web Speech API
-  function speakText(text) {
-    if (!('speechSynthesis' in window)) {
-      alert('Speech synthesis not supported in your browser.');
-      return;
-    }
-    const utterance = new SpeechSynthesisUtterance(text);
-    window.speechSynthesis.speak(utterance);
-  }
-
-  // Initialize board on load
+  /* ========= INITIALISE ========= */
   loadBoard();
 
-  // Handle adding tasks
+  /* ========= EVENT LISTENERS ========= */
+  // Add Task / Delete / Speak
   document.addEventListener('click', e => {
     if (e.target.classList.contains('add-btn')) {
       const col = e.target.closest('.column');
       const input = document.getElementById('taskInput');
-      const text = input.value || prompt('Enter task:');
-      if (text && text.trim()) {
-        col.querySelector('.tasks').appendChild(createTaskEl(text.trim()));
+      const text = input.value.trim() || prompt('Enter task:');
+      if (text) {
+        col.querySelector('.tasks').appendChild(createTaskEl(text));
         saveBoard();
         input.value = '';
       }
     }
 
-    // Delete task
     if (e.target.classList.contains('delete-btn')) {
       e.target.closest('.task').remove();
       saveBoard();
     }
 
-    // Speak task text
     if (e.target.classList.contains('speak-btn-task')) {
-      const text = e.target.closest('.task').querySelector('.task-text').textContent;
-      speakText(text);
+      const txt = e.target.closest('.task').querySelector('.task-text').textContent;
+      speakText(txt);
     }
   });
 
-  // Drag and drop tasks
+  // Drag n Drop
   document.addEventListener('dragstart', e => {
-    if (e.target.classList.contains('task')) {
-      dragged = e.target;
-    }
+    if (e.target.classList.contains('task')) dragged = e.target;
   });
-
   document.addEventListener('dragover', e => {
-    if (e.target.classList.contains('tasks')) {
-      e.preventDefault();
-    }
+    if (e.target.classList.contains('tasks')) e.preventDefault();
   });
-
   document.addEventListener('drop', e => {
     if (e.target.classList.contains('tasks')) {
       e.preventDefault();
@@ -334,40 +286,64 @@
     }
   });
 
-  // Toggle dark mode
+  // Dark Mode Toggle
   document.getElementById('toggleModeBtn').addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
   });
 
-  // Ask AI button - call mock AI then show and speak suggestion
+  // Ask AI
   document.getElementById('askAiBtn').addEventListener('click', async () => {
-    const input = document.getElementById('taskInput');
-    const task = input.value.trim();
-    if (!task) {
-      alert('Please enter a task to get AI suggestions!');
-      return;
-    }
-
-    // Disable buttons while waiting
     const askBtn = document.getElementById('askAiBtn');
     const speakBtn = document.getElementById('speakBtn');
-    askBtn.disabled = true;
-    speakBtn.disabled = true;
-    input.disabled = true;
+    const input = document.getElementById('taskInput');
+    const prompt = input.value.trim();
+    if (!prompt) return alert('Please enter a task first.');
 
+    askBtn.disabled = speakBtn.disabled = input.disabled = true;
     try {
-      const suggestion = await mockOpenAiCall(task);
-      alert(`AI Suggestion:\n\n${suggestion}`);
-      speakText(suggestion);
-    } catch (err) {
-      alert('Error getting AI suggestion: ' + err.message);
+      const reply = await callOpenAI(prompt);
+      alert(reply);
+      speakText(reply);
+    } catch(err) {
+      alert('AI error: ' + err.message);
     } finally {
-      askBtn.disabled = false;
-      speakBtn.disabled = false;
-      input.disabled = false;
+      askBtn.disabled = speakBtn.disabled = input.disabled = false;
     }
   });
 
-  // Voice input setup
-  const speakBtn = document.getElementById('speakBtn');
-  const listeningIndicator = document.getElementById('listeningIndicator');
+  // Voice Input
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    const btn = document.getElementById('speakBtn');
+    btn.disabled = true; btn.title = 'Speech recognition not supported';
+  } else {
+    const recog = new SpeechRecognition();
+    recog.lang = 'en-US';
+    recog.interimResults = false;
+    recog.maxAlternatives = 1;
+
+    const speakBtn = document.getElementById('speakBtn');
+    const indicator = document.getElementById('listeningIndicator');
+
+    speakBtn.addEventListener('click', () => {
+      recog.start();
+      indicator.style.display = 'inline';
+      speakBtn.disabled = true;
+    });
+
+    recog.addEventListener('result', e => {
+      const transcript = e.results[0][0].transcript;
+      document.getElementById('taskInput').value = transcript;
+    });
+    recog.addEventListener('end', () => {
+      indicator.style.display = 'none';
+      speakBtn.disabled = false;
+    });
+    recog.addEventListener('error', e => {
+      indicator.style.display = 'none';
+      speakBtn.disabled = false;
+      alert('Speech recognition error: ' + e.error);
+    });
+  }
+</script></body>
+</html>
